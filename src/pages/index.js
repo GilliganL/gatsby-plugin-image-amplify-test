@@ -1,4 +1,6 @@
 import * as React from "react"
+import { graphql } from 'gatsby';
+import Img from 'gatsby-image';
 
 // styles
 const pageStyles = {
@@ -97,10 +99,14 @@ const links = [
 ]
 
 // markup
-const IndexPage = () => {
+const IndexPage = ({ data }) => {
+  console.log(data)
   return (
     <main style={pageStyles}>
       <title>Home Page</title>
+      <Img
+        fixed={data.file.childImageSharp.fixed}
+      />
       <h1 style={headingStyles}>
         Congratulations
         <br />
@@ -148,3 +154,15 @@ const IndexPage = () => {
 }
 
 export default IndexPage
+
+export const query = graphql`
+  query {
+    file(relativePath: { eq: "loader.jpg" }) {
+      childImageSharp {
+        fixed(width: 125, height: 125) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+  }
+`
